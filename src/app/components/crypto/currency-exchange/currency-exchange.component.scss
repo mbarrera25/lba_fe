@@ -1,0 +1,12 @@
+::ng-deep{
+    .buy-sell .ng-select.ng-select-single .ng-select-container {
+        height: 44px;
+    }
+    .buy-sell .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input{
+        top: 10px;
+    }
+    .custom-card {
+        box-shadow: 0 80px 30px 0 rgb(24 28 33 / 5%) !important;
+        border: 2px solid #e8e8f7 !important;
+    }
+}

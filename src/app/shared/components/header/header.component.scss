@@ -1,0 +1,23 @@
+::ng-deep{
+    .mobileIcon{
+        display: none;
+    }
+    
+    @media screen and (min-width: 0px) and (max-width: 786px) {
+        .mobileIcon{
+            display: block;
+        }
+        .deskIcon{
+            display: none;
+        }
+    }
+
+    @media (max-width: 339px) {
+        .responsive-navbar.navbar .navbar-collapse{
+            padding-left: 0rem;
+        }
+        
+    }
+    
+}
+

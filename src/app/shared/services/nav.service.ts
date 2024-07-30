@@ -78,9 +78,9 @@ export class NavService implements OnDestroy {
         { path: '/crypto/crypto-dashboard', title: 'Analisis', type: 'link' },
         { path: '/crypto/marketcap', title: 'Examenes', type: 'link' },
         { path: '/crypto/currency-exchange', title: 'Carga Masiva de examenes', type: 'link' },
-         { path: '/crypto/buy-sell', title: 'Solicitar Analisis', type: 'link' },
-        // { path: '/crypto/wallet', title: 'Wallet', type: 'link' },
-        // { path: '/crypto/transactions', title: 'Transactions', type: 'link' },
+        { path: '/crypto/buy-sell', title: 'Solicitar Analisis', type: 'link' },
+        { path: '/crypto/wallet', title: 'Wallet', type: 'link' },
+        { path: '/crypto/transactions', title: 'Transactions', type: 'link' },
       ]
     },
      {
@@ -88,11 +88,11 @@ export class NavService implements OnDestroy {
        children: [
          { path: '/ecommerce/ecommerce-dashboard', title: 'Registro de Pacientes', type: 'link' },
          { path: '/ecommerce/products', title: 'Historial de Pacientes', type: 'link' },
-    //     { path: '/ecommerce/products-details', title: 'Products Details', type: 'link' },
-    //     { path: '/ecommerce/cart', title: 'Cart', type: 'link' },
-    //     { path: '/ecommerce/checkout', title: 'Checkout', type: 'link' },
-    //     { path: '/ecommerce/orders', title: 'Orders', type: 'link' },
-    //     { path: '/ecommerce/account', title: 'Account', type: 'link' },
+         { path: '/ecommerce/products-details', title: 'Products Details', type: 'link' },
+         { path: '/ecommerce/cart', title: 'Cart', type: 'link' },
+         { path: '/ecommerce/checkout', title: 'Checkout', type: 'link' },
+         { path: '/ecommerce/orders', title: 'Orders', type: 'link' },
+         { path: '/ecommerce/account', title: 'Account', type: 'link' },
        ]
     },
 

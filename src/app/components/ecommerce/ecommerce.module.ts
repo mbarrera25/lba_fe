@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EcommerceDashboardComponent } from './Pacientes/ecommerce-dashboard.component';
+import { EcommerceDashboardComponent } from './ecommerce-dashboard/ecommerce-dashboard.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductsDetailsComponent } from './products-details/products-details.component';
 import { CartComponent } from './cart/cart.component';

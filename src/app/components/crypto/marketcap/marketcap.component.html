@@ -17,8 +17,8 @@
       <button type="button" class="btn btn-white btn-icon-text my-2 mr-2">
         <i class="fe fe-filter mr-2"></i> Filter
       </button>
-      <button type="button" class="btn btn-primary my-2 btn-icon-text">
-        <i class="fe fe-download-cloud mr-2"></i> Download Report
+      <button type="button" class="btn btn-primary my-2 btn-icon-text" (click)="openForm(null)">
+        <i class="fa-solid fa-circle-plus mr-2"></i> Crear
       </button>
     </div>
   </div>
@@ -42,14 +42,23 @@
                   <th class="bg-transparent">Nombre</th>
                   <th class="bg-transparent">Descripcion</th>
                   <th class="bg-transparent">Costo</th>
+                  <th class="bg-transparent">Acciones</th>
                 </tr>
               </thead>
               <tbody *ngFor="let test of serviceAnalysis.listExamenes$ | async">
-                <tr class="border-bottom">
+                <tr class="border-bottom selecting">
                   <td>{{ test.code }}</td>
                   <td>{{ test.name }}</td>
                   <td>{{ test.description }}</td>
                   <td>$ {{ test.price }}</td>
+                  <td>
+                    <a href="javascript:;" class="btn btn-sm btn-info mr-1">
+                        <i class="fe fe-edit-2" (click)="openForm(test)"></i>
+                    </a>
+                    <a href="javascript:;" class="btn btn-sm btn-danger" (click)="delete(test)">
+                        <i class="fe fe-trash"></i>
+                    </a>
+                </td>
                 </tr>
               </tbody>
             </table>
@@ -58,7 +67,7 @@
                 <li class="page-item disabled">
                   <a class="page-link" href="javascript:;">Prev</a>
                 </li>
-                <li [ngClass]=" paginat.page === pag ? 'page-item active' : 'page-item'" *ngFor="let pag of paginas; let i = index" >
+                <li [ngClass]=" paginat.page === pag ? 'page-item active' : 'page-item' " *ngFor="let pag of serviceAnalysis | async; let i = index" >
                   <a class="page-link"  href="javascript:;">{{ pag }}</a>
                 </li>
                 <li class="page-item">

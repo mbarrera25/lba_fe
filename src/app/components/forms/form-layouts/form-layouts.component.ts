@@ -10,13 +10,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class FormLayoutsComponent implements OnInit {
 
   constructor(private modalService: NgbModal) {
-    
+
   }
 
   ngOnInit(): void {
   }
   modalOpen(basicmodal){
-     this.modalService.open(basicmodal);
+     this.modalService.open(basicmodal,{ size: 'xl' });
   }
 
 }

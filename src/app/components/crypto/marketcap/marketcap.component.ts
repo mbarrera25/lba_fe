@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { cryptoMarketData } from 'src/app/shared/data/crypto-market';
-import * as chartData from '../../../shared/data/crypto-market';
 import { AnalysisService } from '../analysis.service';
-import { tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { iTest } from 'src/app/models/Test.model';
-import { Page, Pagination } from 'src/app/models/utils';
+import { Pagination } from 'src/app/models/utils';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TestFormComponent } from './test-form/test-form.component';
+import Swal from 'sweetalert2';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-marketcap',
@@ -18,23 +20,18 @@ export class MarketcapComponent implements OnInit {
 
   public cryptoMarketData = cryptoMarketData;
 
-  constructor(public serviceAnalysis: AnalysisService) {}
+  constructor(
+    public serviceAnalysis: AnalysisService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
-    this.serviceAnalysis
-      .getAllExamenes({ page: 1, size: 10 })
-      .pipe(
-        tap((res: any) => {
-          this.serviceAnalysis.listExamenes$.next(res.data)
-          this.paginat = res.meta
-          this.pagination$.next(this.paginat)
-        })
-      )
-      .subscribe();
+    this.serviceAnalysis.getallTest()
   }
   getTotalPaginas(totalItems, pageSize) {
     return Math.ceil(totalItems / pageSize);
   }
+
 
   get paginas(){
     return this.generateNumberRange(this.getTotalPaginas(this.pagination$.value.total, this.pagination$.value.size))
@@ -48,6 +45,40 @@ export class MarketcapComponent implements OnInit {
     }
 
     return numbers;
+  }
+
+  openForm(test: iTest){
+    const modalRef= this.modalService.open(TestFormComponent,{ size: 'xl'})
+    modalRef.componentInstance.test = test
+  }
+
+  delete(test: iTest){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Eliminar...',
+      text: 'Seguro que quieres eliminar este Test?',
+      showCancelButton: true,
+      confirmButtonColor: '#6259ca',
+      cancelButtonColor: '#6259ca',
+      confirmButtonText: 'Si',
+      reverseButtons: true
+
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await this.serviceAnalysis.delete(test).pipe(
+          tap( t => {
+            Swal.fire({
+              title: 'Eliminado!',
+              text: 'El Test se ha eliminado',
+              icon: 'success',
+              confirmButtonColor: '#6259ca'
+            })
+            this.serviceAnalysis.getallTest()
+          })
+        ).subscribe()
+
+      }
+    })
   }
 
 }

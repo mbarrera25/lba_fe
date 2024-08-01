@@ -46,8 +46,14 @@
                                     <small class="tx-danger">debes colocar el precio</small>
                                 </ng-container>
                             </div>
+                            <div>
                               <button class="btn btn-primary pull-right" type="submit" awNextStep
                                   [disabled]="!firstFormGroup.valid">Next</button>
+                            <button class="btn btn-primary pull-left" (click)="cancelar()"
+                                  >cancelar</button>
+                            </div>
+
+
                           </form>
                       </aw-wizard-step>
                       <aw-wizard-step stepTitle="Propiedades" [navigationSymbol]="{ symbol: '2' }">
@@ -79,17 +85,18 @@
                                   <thead class="border-top">
                                     <tr>
                                       <th class="bg-transparent">Nombre</th>
-                                      <th class="bg-transparent">lista de valores</th>
-                                      <th class="bg-transparent">Indicadores</th>
                                     </tr>
                                   </thead>
                                   <tbody *ngFor="let det of listdetailTest$ | async;">
                                     <tr class="border-bottom selecting">
                                       <td>{{ det.name }}</td>
-                                      <td>{{ det.list_value }}</td>
-                                      <td>{{ det.indicator }}</td>
+                                      <!-- <td>{{ det.list_value }}</td>
+                                      <td>{{ det.indicator }}</td> -->
                                       <td>
-                                        <a href="javascript:;" class="btn btn-sm btn-danger" (click)="deleteProp(det)">
+                                        <a href="javascript:;" class="btn btn-sm btn-info mr-1" (click)="see(det)">
+                                          <i class="fa fa-bullseye"></i>
+                                      </a>
+                                        <a href="javascript:;" class="btn btn-sm btn-danger mr-1" (click)="deleteProp(det)">
                                             <i class="fe fe-trash"></i>
                                         </a>
                                     </td>

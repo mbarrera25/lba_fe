@@ -1,0 +1,200 @@
+<div class="modal-header">
+  <h4 class="modal-title">Analisis</h4>
+  <button
+    aria-label="Close"
+    class="close"
+    (click)="cancelar()"
+    data-dismiss="modal"
+    type="button"
+  ></button>
+</div>
+<div class="modal-body">
+  <div div id="wizard2">
+    <aw-wizard [navBarLayout]="'large-empty-symbols'">
+      <aw-wizard-step stepTitle="Analisis" [navigationSymbol]="{ symbol: '1' }">
+        <form [formGroup]="analysisForm">
+          <div class="form-group">
+            <label for="name">Codigo</label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="code"
+              onlyAlphabets
+            />
+            <ng-container
+              class="invalid"
+              *ngIf="
+                analysisForm.get('code').hasError('required') &&
+                analysisForm.get('code').touched
+              "
+            >
+              <small class="tx-danger">debes colocar el codigo</small>
+            </ng-container>
+          </div>
+          <div *ngIf=""></div>
+          <div class="form-group">
+            <label for="lname">Nombre</label>
+            <input
+              class="form-control"
+              id="lname"
+              type="text"
+              formControlName="name"
+              onlyAlphabets
+            />
+            <ng-container
+              class="invalid"
+              *ngIf="
+                analysisForm.get('name').hasError('required') &&
+                analysisForm.get('name').touched
+              "
+            >
+              <small class="tx-danger">debes colocar el Nombre</small>
+            </ng-container>
+          </div>
+          <div class="form-group">
+            <label for="contact">Descripcion</label>
+            <input
+              class="form-control"
+              id="contact"
+              type="text"
+              placeholder=""
+              formControlName="description"
+            />
+            <ng-container
+              class="invalid"
+              *ngIf="
+                analysisForm.get('description').hasError('required') &&
+                analysisForm.get('description').touched
+              "
+            >
+              <small class="tx-danger">debes colocar la Descripcion</small>
+            </ng-container>
+          </div>
+          <div class="form-group">
+            <label for="contact">Precio</label>
+            <input
+              class="form-control digits"
+              id="contact"
+              type="number"
+              placeholder="123456789"
+              formControlName="price"
+              onlyNumbers
+            />
+            <ng-container
+              class="invalid"
+              *ngIf="
+                analysisForm.get('price').hasError('required') &&
+                analysisForm.get('price').touched
+              "
+            >
+              <small class="tx-danger">debes colocar el precio</small>
+            </ng-container>
+          </div>
+          <div>
+            <button
+              class="btn btn-primary pull-right"
+              type="submit"
+              awNextStep
+              [disabled]="!analysisForm.valid"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </aw-wizard-step>
+      <aw-wizard-step
+        stepTitle="Examenes Asignados"
+        [navigationSymbol]="{ symbol: '2' }"
+      >
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input
+            class="form-control"
+            id="name"
+            type="text"
+            [formControl]="value"
+            (click)="open()"
+          />
+        </div>
+        <div class="row row-sm" *ngIf="listSeleccionables$ | async">
+          <div class="col-sm-12 col-md-12">
+            <div class="card custom-card">
+              <div class="card-header border-bottom-0 custom-card-header"></div>
+              <div
+                class="card-body"
+                *ngFor="let test of listSeleccionables$ | async"
+              >
+                <div class="border">
+                  <div class="p-3">
+                    <h6>{{ test.code }} - {{ test.name }}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- tabla de propiedades -->
+        <div class="card-body">
+          <div class="">
+            <div class="table-responsive-sm">
+              <table class="table text-nowrap">
+                <thead class="border-top">
+                  <tr>
+                    <th class="bg-transparent">Codigo</th>
+                    <th class="bg-transparent">Nombre</th>
+                  </tr>
+                </thead>
+                <tbody
+                  *ngFor="let test of analysisService.listSeletedTest$ | async"
+                >
+                  <tr class="border-bottom selecting">
+                    <td>{{ test.code }}</td>
+                    <td>{{ test.name }}</td>
+                    <!-- <td>{{ det.list_value }}</td>
+                        <td>{{ det.indicator }}</td> -->
+                    <td>
+                      <a
+                        href="javascript:;"
+                        class="btn btn-sm btn-info mr-1"
+                        (click)="see(test)"
+                      >
+                        <i class="fa fa-bullseye"></i>
+                      </a>
+                      <a
+                        href="javascript:;"
+                        class="btn btn-sm btn-danger mr-1"
+                        (click)="deleteTest(test)"
+                      >
+                        <i class="fe fe-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <button
+          class="btn btn-primary pull-right"
+          type="button"
+          (click)="save()"
+        >
+          guardar
+        </button>
+        <button
+          class="btn btn-secondary pull-right mr-1"
+          type="button"
+          awPreviousStep
+        >
+          Previous
+        </button>
+      </aw-wizard-step>
+    </aw-wizard>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">
+      Close
+    </button>
+  </div>
+</div>

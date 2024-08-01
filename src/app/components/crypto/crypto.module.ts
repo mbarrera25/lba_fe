@@ -18,9 +18,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CryptoDashboardComponent } from './crypto-dashboard/crypto-dashboard.component';
 import { TestFormComponent } from './marketcap/test-form/test-form.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { PropertyTestComponent } from './marketcap/test-form/property-test/property-test.component';
+import { AnalysisFormComponent } from './crypto-dashboard/analysis-form/analysis-form.component';
+import { TestSearcherComponent } from './crypto-dashboard/analysis-form/test-searcher/test-searcher.component';
 
 @NgModule({
-  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent],
+  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent, PropertyTestComponent, AnalysisFormComponent, TestSearcherComponent],
   imports: [
     CommonModule,
     CryptoRoutingModule,

@@ -1,0 +1,42 @@
+
+	<div class="modal-header">
+		<h4 class="modal-title">Propiedades</h4>
+    <button aria-label="Close" class="close"  (click)="cancelar()" data-dismiss="modal" type="button"></button>
+	</div>
+	<div class="modal-body">
+		<div class="col-sm-12 col-md-6 col-xl-12">
+      <div class="card custom-card">
+        <div class="card-header border-bottom-0 pb-0 d-flex pl-3 ml-1">
+          <div>
+            <label class="main-content-label mb-2">Propiedades</label>
+          </div>
+        </div>
+        <div class="card-body pt-2 mt-0">
+          <div class="list-group border projects-list">
+            <a
+              href="javascript:;"
+              class="list-group-item list-group-item-action flex-column border-right-0 border-left-0 align-items-start p-3 border-top-0"
+            >
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1 font-weight-semibold">Lista de Valores</h6>
+              </div>
+              <p class="mb-0 text-muted mb-0 tx-12">{{ det.list_value }}</p>
+            </a>
+            <a
+              href="javascript:;"
+              class="list-group-item list-group-item-action flex-column border-right-0 border-left-0 align-items-start p-3"
+            >
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1 font-weight-semibold">Indicadores</h6>
+              </div>
+              <p class="mb-0 text-muted mb-0 tx-12">{{ det.indicator }}</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="cancelar()">Close</button>
+	</div>
+

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { iTest, iTestDetail, Test } from 'src/app/models/Test.model';
@@ -8,6 +8,7 @@ import { Pagination } from 'src/app/models/utils';
 import { AnalysisService } from '../../analysis.service';
 import { ToastService } from 'src/app/components/elements/toast/toast.service';
 import Swal from 'sweetalert2';
+import { PropertyTestComponent } from './property-test/property-test.component';
 
 @Component({
   selector: 'app-test-form',
@@ -15,6 +16,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./test-form.component.scss'],
 })
 export class TestFormComponent implements OnInit {
+
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   @Input() test: iTest
@@ -26,6 +29,7 @@ export class TestFormComponent implements OnInit {
     private analisysService: AnalysisService,
     config: NgbModalConfig,
     private activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     public toastService: ToastService
   ) {
     config.backdrop = 'static';
@@ -118,5 +122,12 @@ export class TestFormComponent implements OnInit {
       this.analisysService.getallTest();
   }
 
+  see(det: any){
+    const modalRef= this.modalService.open(PropertyTestComponent,{ size: 'lg'})
+    modalRef.componentInstance.det = det
+  }
+  cancelar() {
+    this.activeModal.close();
+  }
 
 }

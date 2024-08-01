@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">Buscar Examen</h4>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="name">Busqueda por nombre, codigo o descripcion</label>
+    <input
+      class="form-control"
+      id="name"
+      type="text"
+      [formControl]="value"
+      (input)="search()"
+    />
+  </div>
+  <div class="row row-sm " *ngIf="listSeleccionables$ | async" >
+    <div class="col-sm-12 col-md-12">
+      <div class="card custom-card selecting" >
+        <div class="card-header border-bottom-0 custom-card-header"></div>
+        <div class="card-body" *ngFor="let test of listSeleccionables$ | async" (click)="selected(test)">
+          <div class="border">
+            <div class="p-3">
+              <h6>{{ test.code }} - {{ test.name }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cancelar()">
+    Close
+  </button>
+</div>

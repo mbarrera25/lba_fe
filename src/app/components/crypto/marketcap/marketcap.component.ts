@@ -65,7 +65,7 @@ export class MarketcapComponent implements OnInit {
 
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await this.serviceAnalysis.delete(test).pipe(
+        await this.serviceAnalysis.deleteTest(test).pipe(
           tap( t => {
             Swal.fire({
               title: 'Eliminado!',

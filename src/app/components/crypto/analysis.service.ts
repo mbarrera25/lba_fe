@@ -92,4 +92,9 @@ export class AnalysisService {
     let params = new HttpParams().set('search', query);
     return this.http.get<iTest[]>(`${this.apiUrl}/tests/search`, {params})
   }
+
+  createBulkTests(tests: Test[]) {
+    return this.http.post<Test[]>(`${this.apiUrl}/tests/bulk`, {tests})
+  }
+
 }

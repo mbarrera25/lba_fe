@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TestFormComponent } from './test-form/test-form.component';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
+import { ImportTestComponent } from './import-test/import-test.component';
 
 @Component({
   selector: 'app-marketcap',
@@ -15,6 +16,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./marketcap.component.scss'],
 })
 export class MarketcapComponent implements OnInit {
+
   pagination$ = new BehaviorSubject<Pagination | null>(null);
   paginat: Pagination | null = null
 
@@ -81,4 +83,7 @@ export class MarketcapComponent implements OnInit {
     })
   }
 
+  openImportTest() {
+    this.modalService.open(ImportTestComponent)
+    }
 }

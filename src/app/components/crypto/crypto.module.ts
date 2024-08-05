@@ -21,9 +21,12 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { PropertyTestComponent } from './marketcap/test-form/property-test/property-test.component';
 import { AnalysisFormComponent } from './crypto-dashboard/analysis-form/analysis-form.component';
 import { TestSearcherComponent } from './crypto-dashboard/analysis-form/test-searcher/test-searcher.component';
+import { ImportTestComponent } from './marketcap/import-test/import-test.component';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
-  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent, PropertyTestComponent, AnalysisFormComponent, TestSearcherComponent],
+  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent, PropertyTestComponent, AnalysisFormComponent, TestSearcherComponent, ImportTestComponent],
   imports: [
     CommonModule,
     CryptoRoutingModule,
@@ -35,6 +38,8 @@ import { TestSearcherComponent } from './crypto-dashboard/analysis-form/test-sea
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    DropzoneModule,
+    NgxDropzoneModule,
     CarouselModule,
     ToastrModule.forRoot(
       {

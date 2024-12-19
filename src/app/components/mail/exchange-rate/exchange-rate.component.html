@@ -1,0 +1,31 @@
+<div class="d-flex mb-4">
+    <label class="main-content-label my-auto">Tasa de Cambio</label>
+    <h6 class="mb-0 ml-auto">
+      <button class="btn btn-success float-right" (click)="getTasaDolar()">
+        <i class=""></i>Actualizar
+      </button>
+    </h6>
+  </div>
+  <div class="table-responsive">
+    <table class="table border text-md-nowrap text-nowrap">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Tasa</th>
+          <th>Moneda</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let rate of exchangeCurrencyService.listtasas$ | async
+          "
+        >
+          <td>{{ rate.date | date : "dd/MM/yyyy" }}</td>
+          <td>{{ rate.rate }}</td>
+          <td>{{ rate.currency.iso }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+

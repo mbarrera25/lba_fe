@@ -1,0 +1,96 @@
+<!-- métodos-de-pago.component.html -->
+<div class="py-2">
+  <form [formGroup]="metodoPagoForm" (ngSubmit)="onSubmitMetodoPago()">
+    <div class="row py-2">
+      <div class="col-md-2">
+        <label id="codigo">Código</label>
+        <input type="text" class="form-control" formControlName="code" />
+      </div>
+      <div class="col-md-2">
+        <label id="nombre">Nombre</label>
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+      <div class="col-md-2">
+        <label id="moneda">Moneda</label>
+        <ng-select
+          formControlName="currency_id"
+          placeholder="Seleccione una moneda"
+        >
+        <ng-option
+          *ngFor="let currency of exchangeCurrencyService.currencies$ | async"
+          [value]="currency.id"
+          >{{ currency.iso }}</ng-option
+        >
+        </ng-select>
+
+      </div>
+
+      <div class="col-md-2">
+        <label id="moneda">Tipo</label>
+        <ng-select
+          formControlName="type"
+          placeholder="Seleccione una tipo"
+        >
+        <ng-option
+          *ngFor="let type of listTypes"
+          [value]="type.value"
+          >{{ type.value }}</ng-option
+        >
+        </ng-select>
+
+      </div>
+    </div>
+    <div class="row py-2">
+      <div class="col-md-2">
+        <label id="simbolo">Símbolo</label>
+        <input type="text" class="form-control" formControlName="symbol" />
+      </div>
+    </div>
+    <div class="row py-2">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </form>
+  <div class="py-2">
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Moneda</th>
+          <th>Símbolo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let metodo of exchangeCurrencyService.listMetodoPago$ | async"
+        >
+          <td>{{ metodo.code }}</td>
+          <td>{{ metodo.name }}</td>
+          <td>{{ metodo.currency.iso }}</td>
+          <td>{{ metodo.symbol }}</td>
+          <td style="display: flex">
+            <div class="p-2">
+              <button
+                class="btn btn-warning btn-sm"
+                (click)="editMetodoPago(metodo)"
+              >
+                Editar
+              </button>
+            </div>
+            <div class="p-2">
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deleteMetodoPago(metodo.id)"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

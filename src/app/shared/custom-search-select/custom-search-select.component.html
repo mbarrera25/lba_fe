@@ -1,0 +1,19 @@
+<div class="form-group mb-4">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar..."
+    formControlName="searchControl"
+    (input)="onSearch($event.target.value)"
+    (blur)="closeDropdown()"
+  />
+  <div *ngIf="showDropdown" class="dropdown-menu show" style="width: 100%;">
+    <button
+      *ngFor="let item of filteredItems"
+      class="dropdown-item"
+      (click)="selectItem(item)"
+    >
+      {{ item.label }}
+    </button>
+  </div>
+</div>

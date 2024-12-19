@@ -1,6 +1,6 @@
+import { ConfiguracionComponent } from './configuracion.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MailInboxComponent } from './mail-inbox/mail-inbox.component';
 import { ViewMailComponent } from './view-mail/view-mail.component';
 
 
@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'mail-inbox',
-        component: MailInboxComponent
+        component: ConfiguracionComponent
       },
       {
         path: 'view-mail',

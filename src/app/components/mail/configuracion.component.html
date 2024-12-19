@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card custom-card">
+      <div class="card-header">
+        <h3 class="main-content-label">Configuración</h3>
+      </div>
+      <div class="card-body">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          class="nav nav-tabs mb-0"
+          [(activeId)]="active"
+        >
+          <li [ngbNavItem]="1">
+            <a href="javascript:;" ngbNavLink
+              ><i class="ti-exchange-vertical icon1"></i> Tasa de Cambio</a
+            >
+            <ng-template ngbNavContent>
+              <app-exchange-rate></app-exchange-rate>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a href="javascript:;" ngbNavLink
+              ><i class="ti-file icon1"></i> Talonarios</a
+            >
+            <ng-template ngbNavContent>
+              <app-talonarios></app-talonarios>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3">
+            <a href="javascript:;" ngbNavLink
+              ><i class="ti-wallet icon1"></i> Metodos de Pagos</a
+            >
+            <ng-template ngbNavContent>
+              <app-metodos-pagos></app-metodos-pagos>
+            </ng-template>
+          </li>
+        </ul>
+        <div class="tab-content mt-4" id="nav-tabContent">
+          <div [ngbNavOutlet]="nav"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

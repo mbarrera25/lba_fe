@@ -24,6 +24,7 @@ export class AnalysisFormComponent implements OnInit {
   value = new FormControl('');
   analysisForm: FormGroup;
   listSeleccionables$ = new BehaviorSubject<iTest[] | null>(null);
+  calculatedPrice: number = 0;  // Esta es la propiedad para almacenar el precio calculado
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +38,7 @@ export class AnalysisFormComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: ['', Validators.required],
+      price: [0, Validators.required],
     });
     if (this.analysis != null) {
       this.fillForm();
@@ -52,11 +53,11 @@ export class AnalysisFormComponent implements OnInit {
       price: this.analysis.price,
     });
     this.analysisService.listSeletedTest$.next(this.analysis.Tests);
-    console.log(this.analysisService.listSeletedTest$.value)
+    console.log(this.analysisService.listSeletedTest$.value);
   }
 
   cancelar() {
-    this.activeModal.close()
+    this.activeModal.close();
   }
 
   see(test: iTest) {}
@@ -65,44 +66,82 @@ export class AnalysisFormComponent implements OnInit {
     let l = this.listselect;
     l = l.filter((lt) => lt.code != test.code);
     this.analysisService.listSeletedTest$.next(l);
-    if ( this.analysis != null){
-      this.analysisService.deleteAnalysisTest(test.id).subscribe()
+    if (this.analysis != null) {
+      this.analysisService.deleteAnalysisTest(test.id).subscribe();
     }
+    this.recalculate()
   }
   get listselect() {
     return this.analysisService.listSeletedTest$.value;
   }
 
   save() {
-
-    const { code, name, description, price } = this.analysisForm.value;
-    const analysis = new Analysis(
-      code,
-      name,
-      description,
-      price,
-      this.analysisService.listSeletedTest$.value
-    );
-    if (this.analysis != null){
-
-    }
-    this.analysisService.saveAnalysis(analysis).subscribe((res: any) => {
-      if (res.status == 201) {
-        Swal.fire('El analisys fue guardado con exito!');
-        this.analysisService.getallAnalysis();
-        this.cleanList();
-        this.activeModal.close();
+    if (this.analysisForm.valid && this.analysisForm.value.price > 0) {
+      const { code, name, description, price } = this.analysisForm.value;
+      const analysis = new Analysis(
+        code,
+        name,
+        description,
+        price,
+        this.analysisService.listSeletedTest$.value
+      );
+      if (this.analysis != null) {
+        analysis.id = this.analysis.id;
+        this.analysisService.updateAnalysis(analysis).subscribe((res: any) => {
+          if (res.status == 200) {
+            Swal.fire('El analisis fue actualizado con exito!');
+            this.analysisService.getallAnalysis();
+            this.cleanList();
+            this.activeModal.close();
+          }
+        });
+        return;
       }
-    });
-
+      this.analysisService.saveAnalysis(analysis).subscribe((res: any) => {
+        if (res) {
+          Swal.fire('El analisis fue guardado con exito!');
+          this.analysisService.getallAnalysis();
+          this.cleanList();
+          this.activeModal.close();
+        }
+      });
+    }
   }
-
   open() {
-    this.modalService.open(TestSearcherComponent);
+    const modalRef = this.modalService.open(TestSearcherComponent);
+
+    // Suscribirse al evento de cierre del modal
+    modalRef.result.then(
+      (result) => {
+        // Aquí puedes ejecutar el método calculate cuando el modal se cierra
+        this.recalculate();
+      },
+      (reason) => {
+        // Aquí puedes manejar cualquier cancelación o error, si es necesario
+        this.recalculate(); // Ejecutar el cálculo también si el modal se cierra de alguna forma
+      }
+    );
   }
+
 
   cleanList() {
     this.analysisService.listSeletedTest$.next([]);
     this.listSeleccionables$.next([]);
+  }
+
+   // Método para recalcular el precio
+   recalculate() {
+    const selectedTests = this.analysisService.listSeletedTest$.value;
+    this.updateCalculatedPrice(selectedTests);
+  }
+
+  // Método para actualizar el precio calculado
+  private updateCalculatedPrice(selectedTests: any[]) {
+    this.calculatedPrice = selectedTests.reduce(
+      (total, test) => total + test.price,
+      0
+    );
+    // Actualiza el valor en el formulario
+    this.analysisForm.patchValue({ price: this.calculatedPrice });
   }
 }

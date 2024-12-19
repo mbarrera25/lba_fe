@@ -119,7 +119,7 @@ export class TestFormComponent implements OnInit {
   action(accion: string = null) {
     this.activeModal.close();
       Swal.fire(`${accion != null ? accion : 'Creado'} con exito!`)
-      this.analisysService.getallTest();
+      this.analisysService.getallTest( { page: 1, size: 10 });
   }
 
   see(det: any){

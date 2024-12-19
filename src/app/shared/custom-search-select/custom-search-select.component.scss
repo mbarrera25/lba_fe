@@ -1,0 +1,68 @@
+/* Estilos básicos para el contenedor del componente */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem; /* Espaciado inferior */
+}
+
+/* Estilos para el input de búsqueda */
+input[type="text"].form-control {
+  padding: 0.75rem 1.25rem; /* Padding interno */
+  border: 1px solid #ced4da; /* Borde gris claro */
+  border-radius: 0.25rem; /* Esquinas redondeadas */
+  font-size: 1rem; /* Tamaño de la fuente */
+  width: 100%; /* Ancho completo */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilos para el dropdown de resultados */
+.dropdown-menu {
+  position: absolute; /* Posiciona sobre el input */
+  top: 100%; /* Justo debajo del input */
+  left: 0;
+  z-index: 1000; /* Asegura que esté sobre otros elementos */
+  display: block; /* Muestra el menú */
+  width: 100%; /* Ancho completo */
+  padding: 0.5rem 0; /* Padding vertical */
+  margin: 0; /* Sin margen */
+  font-size: 1rem; /* Tamaño de la fuente */
+  color: #212529; /* Color del texto */
+  text-align: left; /* Texto alineado a la izquierda */
+  background-color: #fff; /* Fondo blanco */
+  border: 1px solid rgba(0, 0, 0, 0.15); /* Borde gris claro */
+  border-radius: 0.25rem; /* Esquinas redondeadas */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+}
+
+/* Estilos para los elementos del dropdown */
+.dropdown-item {
+  display: block; /* Muestra como bloque */
+  width: 100%; /* Ancho completo */
+  padding: 0.5rem 1.5rem; /* Padding interno */
+  clear: both;
+  font-weight: 400; /* Peso de fuente normal */
+  color: #495057; /* Color gris oscuro */
+  text-align: inherit; /* Hereda alineación del texto */
+  white-space: nowrap; /* No permite que el texto se quiebre en varias líneas */
+  background-color: transparent; /* Fondo transparente por defecto */
+  border: 0; /* Sin borde */
+}
+
+/* Estilos al pasar el cursor sobre un elemento del dropdown */
+.dropdown-item:hover {
+  color: #fff; /* Texto blanco */
+  background-color: #007bff; /* Fondo azul */
+}
+
+/* Estilos al seleccionar un elemento del dropdown */
+.dropdown-item:focus,
+.dropdown-item.active {
+  color: #fff; /* Texto blanco */
+  background-color: #007bff; /* Fondo azul */
+}
+
+/* Sombra para el input de búsqueda cuando se enfoca */
+input[type="text"].form-control:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra azul sutil */
+  border-color: #80bdff; /* Borde azul */
+  outline: none; /* Sin borde de enfoque predeterminado */
+}

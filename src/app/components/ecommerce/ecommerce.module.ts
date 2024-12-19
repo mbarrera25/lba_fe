@@ -16,9 +16,10 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ArchwizardModule } from 'angular-archwizard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormPacienteComponent } from './ecommerce-dashboard/form-paciente/form-paciente.component';
 
 @NgModule({
-  declarations: [EcommerceDashboardComponent, ProductsComponent, ProductsDetailsComponent, CartComponent, CheckoutComponent, OrdersComponent, AccountComponent],
+  declarations: [EcommerceDashboardComponent, ProductsComponent, ProductsDetailsComponent, CartComponent, CheckoutComponent, OrdersComponent, AccountComponent, FormPacienteComponent],
   imports: [
     CommonModule,
     EcommerceRoutingModule,

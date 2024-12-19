@@ -16,9 +16,8 @@ import { ImportTestComponent } from './import-test/import-test.component';
   styleUrls: ['./marketcap.component.scss'],
 })
 export class MarketcapComponent implements OnInit {
+  pagination = { page: 1, size: 10 }; // Estado actual de la paginación
 
-  pagination$ = new BehaviorSubject<Pagination | null>(null);
-  paginat: Pagination | null = null
 
   public cryptoMarketData = cryptoMarketData;
 
@@ -28,16 +27,16 @@ export class MarketcapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.serviceAnalysis.getallTest()
+    this.serviceAnalysis.getallTest(this.pagination)
+
+
   }
   getTotalPaginas(totalItems, pageSize) {
     return Math.ceil(totalItems / pageSize);
   }
 
 
-  get paginas(){
-    return this.generateNumberRange(this.getTotalPaginas(this.pagination$.value.total, this.pagination$.value.size))
-  }
+
 
   generateNumberRange(end: number): number[] {
     const numbers: number[] = [];
@@ -75,7 +74,7 @@ export class MarketcapComponent implements OnInit {
               icon: 'success',
               confirmButtonColor: '#6259ca'
             })
-            this.serviceAnalysis.getallTest()
+            this.serviceAnalysis.getallTest(this.pagination)
           })
         ).subscribe()
 
@@ -85,5 +84,9 @@ export class MarketcapComponent implements OnInit {
 
   openImportTest() {
     this.modalService.open(ImportTestComponent)
+    }
+    onPageChange(page: number): void {
+      this.pagination.page = page;
+      this.serviceAnalysis.getallTest(this.pagination);
     }
 }

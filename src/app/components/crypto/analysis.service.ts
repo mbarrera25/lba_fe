@@ -10,10 +10,6 @@ import { Page, Pagination } from 'src/app/models/utils';
   providedIn: 'root'
 })
 export class AnalysisService {
-
-
-
-
   private apiUrl = 'http://localhost:5000/api';
   listExamenes$ = new BehaviorSubject<iTest[] >([]);
   listSeletedTest$ = new BehaviorSubject<iTest[] >([]);
@@ -29,13 +25,19 @@ export class AnalysisService {
 
   }
 
-  getallTest(){
+  getallTest(pagination: any){
     this
-      .getAllTest({ page: 1, size: 10 })
+      .getAllTest(pagination)
       .pipe(
         tap((res: any) => {
           this.listExamenes$.next(res.data)
-          this.pagination$.next(res.meta)
+          this.pagination$.next({
+            page: res.meta.page,
+            size: res.meta.size,
+            total: res.meta.total,
+          });
+          console.log(this.pagination$.value);
+
         })
       )
       .subscribe();
@@ -47,6 +49,8 @@ export class AnalysisService {
       .pipe(
         tap((res: any) => {
           this.listAnalysis$.next(res.data)
+          console.log(res.data);
+
           this.paginationAnalisys$.next(res.meta)
         })
       )
@@ -65,6 +69,9 @@ export class AnalysisService {
   }
   saveAnalysis(analysis: Analysis) {
     return this.http.post<Analysis>(`${this.apiUrl}/analisys`, analysis)
+  }
+  updateAnalysis(analysis: Analysis) {
+    return this.http.put<Analysis>(`${this.apiUrl}/analisys/${analysis.id}`, analysis)
   }
   deleteTest(test: Test) {
     return this.http.delete(`${this.apiUrl}/tests/${test.id}`,)

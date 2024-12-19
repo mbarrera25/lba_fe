@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import * as chartData from "../../../shared/data/ecommerce-Dash";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormPacienteComponent } from './form-paciente/form-paciente.component';
+import { PacienteService } from './paciente.service';
+import { iPaciente } from 'src/app/models/paciente.model';
+import Swal from 'sweetalert2';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ecommerce-dashboard',
@@ -9,67 +15,65 @@ import * as chartData from "../../../shared/data/ecommerce-Dash";
 })
 export class EcommerceDashboardComponent implements OnInit {
 
+pacientes: any;
+
   constructor(
+    private modalService: NgbModal,
+    public pacienteService: PacienteService
+
   ) { }
 
   ngOnInit(): void {
+    this.pacienteService.getAllPatients()
   }
 
-  public lineChartOptions = chartData.lineChartOptions;
-  public lineChartType = chartData.lineChartType;
-  public lineChartData = chartData.lineChartData;
-  public lineChartLabel = chartData.lineChartLabels;
-  public lineChartLegend = chartData.lineChartLegend;
+  openCreateModal(paciente: iPaciente | null = null) {
+    const modalRef = this.modalService.open(FormPacienteComponent, {
+      size: 'lg',
+      windowClass: 'custom-modal-size',
+    });
+
+    // Pasar el paciente al componente del modal
+    modalRef.componentInstance.paciente = paciente;
+
+    // Manejar el resultado cuando se cierra el modal
+    modalRef.result.then((result) => {
+      // Aquí puedes manejar el resultado cuando el modal se cierra exitosamente
+      console.log('Modal cerrado con resultado:', result);
+    }).catch((reason) => {
+      // Aquí puedes manejar cuando el modal se cierra con un rechazo o cancelación
+      console.log('Modal cerrado:', reason);
+    });
+  }
 
 
-  //Radical using ApexCharts
-  public apexChartOptions = chartData.apexChartOptions
+    delete(id: number){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Eliminar...',
+        text: 'Seguro que quieres eliminar este Paciente?',
+        showCancelButton: true,
+        confirmButtonColor: '#6259ca',
+        cancelButtonColor: '#6259ca',
+        confirmButtonText: 'Si',
+        reverseButtons: true
 
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          this.pacienteService.delete(id).pipe(
+            tap(t => {
+              Swal.fire({
+                title: 'Eliminado!',
+                text: 'El Paciente se ha eliminado',
+                icon: 'success',
+                confirmButtonColor: '#6259ca'
+              });
+              this.pacienteService.getAllPatients();
+            })
+          ).subscribe()
 
-  map: L.Map;
-  json;
-  //Basic Map
-  options1 = {
-    layers: [
-      L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 20,
-        attribution: ""
-      }),
-      L.circle([-23.533773, -46.625290], {
-        color: '#6259ca',
-        fillColor: '',
-        fillOpacity: 0.8,
-        radius: 100
-      }),
-      L.circle([55.751244, 37.618423], {
-        color: '#6259ca',
-        fillColor: '#6259ca',
-        fillOpacity: 0.9,
-        radius: 100
-      }),
-      L.circle([52.237049, 21.017532], {
-        color: '#6259ca',
-        fillColor: '#6259ca',
-        fillOpacity: 0.9,
-        radius: 100
-      }),
-      L.circle([51.213890, -110.005470], {
-        color: '#6259ca',
-        fillColor: '#6259ca',
-        fillOpacity: 0.9,
-        radius: 100
-      }),
-      L.circle([20.5937, 78.9629], {
-        color: '#6259ca',
-        fillColor: '#6259ca',
-        fillOpacity: 0.9,
-        radius: 100
-      }),
-    ],
-    zoom: 1.2,
-    center: L.latLng([0,0])
-  
-  };
-
+        }
+      })
+    }
 
 }

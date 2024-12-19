@@ -1,0 +1,212 @@
+<div class="modal-header">
+  <h5 class="modal-title">Crear Paciente</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formPaciente" novalidate >
+    <!-- Accordion for personal information -->
+    <ngb-accordion [closeOthers]="true" activeIds="static-0">
+      <ngb-panel id="static-0">
+        <ng-template ngbPanelTitle>
+          <span>
+            <i class="fa fa-user mr-2"></i>
+            Datos Personales
+          </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="form-row" >
+            <div class="form-group col-md-6">
+              <label for="identification">Identificación</label>
+              <input
+                type="text"
+                id="identification"
+                class="form-control"
+                formControlName="identification"
+                placeholder="Ingrese la identificación"
+                [ngClass]="{
+                  'is-invalid':
+                    formPaciente.get('identification').invalid &&
+                    formPaciente.get('identification').touched
+                }"
+              />
+              <div
+                *ngIf="
+                  formPaciente.get('identification').invalid &&
+                  formPaciente.get('identification').touched
+                "
+                class="invalid-feedback"
+              >
+                La identificación es obligatoria.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="full_name">Nombre Completo</label>
+              <input
+                type="text"
+                id="full_name"
+                class="form-control"
+                formControlName="full_name"
+                placeholder="Ingrese el nombre completo"
+                [ngClass]="{
+                  'is-invalid':
+                    formPaciente.get('full_name').invalid &&
+                    formPaciente.get('full_name').touched
+                }"
+              />
+              <div
+                *ngIf="
+                  formPaciente.get('full_name').invalid &&
+                  formPaciente.get('full_name').touched
+                "
+                class="invalid-feedback"
+              >
+                El nombre completo es obligatorio.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row" style="height: 144px;">
+            <div class="form-group col-md-6">
+              <label for="gender">Género</label>
+              <ng-select
+                id="gender"
+                formControlName="gender"
+                [items]="['masculino', 'femenino']"
+                bindLabel="item"
+                placeholder="Seleccione un género"
+                [ngClass]="{
+                  'is-invalid':
+                    formPaciente.get('gender').invalid &&
+                    formPaciente.get('gender').touched
+                }"
+                [class.is-invalid]="
+                  formPaciente.get('gender').invalid &&
+                  formPaciente.get('gender').touched
+                "
+              ></ng-select>
+              <div
+                *ngIf="
+                  formPaciente.get('gender').invalid &&
+                  formPaciente.get('gender').touched
+                "
+                class="invalid-feedback"
+              >
+                El género es obligatorio.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="date_birth">Fecha de Nacimiento</label>
+              <input
+                type="date"
+                id="date_birth"
+                class="form-control"
+                formControlName="date_birth"
+                [ngClass]="{
+                  'is-invalid':
+                    formPaciente.get('date_birth').invalid &&
+                    formPaciente.get('date_birth').touched
+                }"
+              />
+              <div
+                *ngIf="
+                  formPaciente.get('date_birth').invalid &&
+                  formPaciente.get('date_birth').touched
+                "
+                class="invalid-feedback"
+              >
+                La fecha de nacimiento es obligatoria.
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <!-- Accordion for additional information -->
+      <ngb-panel id="static-1">
+        <ng-template ngbPanelTitle>
+          <span>
+            <i class="fa fa-address-book mr-2"></i>
+            Datos de Contacto
+          </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="form-group">
+            <label for="phone">Teléfono</label>
+            <input
+              type="text"
+              id="phone"
+              class="form-control"
+              formControlName="phone"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              formControlName="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="address">Dirección</label>
+            <textarea
+              id="address"
+              class="form-control"
+              formControlName="address"
+            ></textarea>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="static-2">
+        <ng-template ngbPanelTitle>
+          <span>
+            <i class="fa fa-notes-medical mr-2"></i>
+            Información Clínica
+          </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="form-group">
+            <label for="blood_type">Tipo de Sangre</label>
+            <ng-select
+              formControlName="blood_type"
+              [items]="tiposDeSangre"
+              bindLabel="label"
+              bindValue="value"
+              placeholder="Seleccione un tipo de sangre"
+            >
+            </ng-select>
+          </div>
+          <div class="form-group">
+            <label for="allergies">Alergias</label>
+            <textarea
+              id="allergies"
+              class="form-control"
+              formControlName="allergies"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="medical_history">Antecedentes Médicos</label>
+            <textarea
+              id="medical_history"
+              class="form-control"
+              formControlName="medical_history"
+            ></textarea>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+
+    <div class="modal-footer mt-4">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary" (click)="savePaciente()">
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

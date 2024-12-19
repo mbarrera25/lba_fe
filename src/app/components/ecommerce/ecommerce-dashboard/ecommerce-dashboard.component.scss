@@ -6,7 +6,7 @@
     }
     .card-options .dropdown-menu{
         left: -120px !important;
-    } 
+    }
 
     .card-options .dropdown-menu[x-placement^=top],
     .card-options .dropdown-menu[x-placement^=bottom]
@@ -14,3 +14,9 @@
         transform: translate(0px, 34px) !important;
     }
 
+
+    .custom-modal-size {
+      width: 600px;  /* Ajusta el ancho */
+      height: 400px; /* Ajusta la altura */
+      max-width: 100%; /* Asegúrate de que el modal no se extienda fuera del viewport */
+    }

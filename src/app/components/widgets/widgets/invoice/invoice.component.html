@@ -1,0 +1,189 @@
+<!-- Row -->
+<div class="row row-sm" [formGroup]="form">
+    <div class="col-lg-12 col-md-12">
+        <div class="card custom-card">
+            <div class="card-body">
+                <div class="d-lg-flex">
+                    <ng-container *ngIf="solicitudService.invoiceNumber$ | async as invoiceNumber">
+                        <h2 class="main-content-label mb-1"><b>Factura Nro:</b> {{invoiceNumber}}</h2>
+                    </ng-container>
+                    <ng-container *ngIf="showSelectTalonario">
+                        <div class="form-group mb-1">
+                            <ng-select id="book_payment" formControlName="book_payment"
+                                [items]="solicitudService.paymentsBookActives$ | async" bindLabel="name"
+                                placeholder="Talonario" [typeahead]="form.get('invoice_number').valueChanges"
+                                (change)="onSelectTlonario($event)" class="form-control"
+                                [ngClass]="{'is-invalid': form.get('book_payment').invalid && form.get('book_payment').touched}">
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.name }}
+                                </ng-template>
+                            </ng-select>
+                            <div *ngIf="form.get('book_payment').invalid && form.get('book_payment').touched"
+                                class="text-danger">
+                                Talonario es obligatorio.
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="ml-auto">
+                        <p class="mb-1"><span class="font-weight-bold">Fecha:</span> {{invoiceDate}}</p>
+                    </div>
+                </div>
+                <hr class="mg-b-40">
+                <div class="row row-sm">
+                    <div class="col-lg-7">
+                        <p class="h3">Facturar a:</p>
+                        <address>
+                            <!-- Campo para Cliente -->
+                            <ng-container *ngIf="changePatient">
+                                <div class="row align-items-center mb-2">
+                                    <label id="codigo" class="col-auto text-end pe-2">Cliente</label>
+                                    <div class="col" style="max-width: 300px;">
+                                        <input type="text" class="form-control w-100" formControlName="client"
+                                            [ngClass]="{'is-invalid': form.get('client').invalid && form.get('client').touched}" />
+                                        <div *ngIf="form.get('client').invalid && form.get('client').touched"
+                                            class="text-danger">
+                                            Cliente es obligatorio.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo para Identification -->
+                                <div class="row align-items-center mb-2">
+                                    <label id="identification" class="col-auto text-end pe-2">Rif/CI</label>
+                                    
+                                    <!-- Select para Type Person con ancho reducido -->
+                                    <div class="col-auto" style="max-width: 100px; margin-right: 5px;">
+                                        <ng-select id="type_person" formControlName="type_person" [items]="typePersonList" bindLabel="name"
+                                            [typeahead]="form.get('type_person').valueChanges" class="form-control "
+                                            [ngClass]="{'is-invalid': form.get('type_person').invalid && form.get('type_person').touched}">
+                                            <ng-template ng-label-tmp let-item="item">
+                                                {{ item.name }}
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="form.get('type_person').invalid && form.get('type_person').touched" class="text-danger">
+                                            Seleccione el tipo de persona
+                                        </div>
+                                    </div>
+                                
+                                    <!-- Input para Identification con ancho extendido -->
+                                    <div class="col" style="max-width: 300px; margin-left: 0;">
+                                        <input type="text" class="form-control w-100" formControlName="identification"
+                                            [ngClass]="{'is-invalid': form.get('identification').invalid && form.get('identification').touched}" />
+                                        <div *ngIf="form.get('identification').invalid && form.get('identification').touched" class="text-danger">
+                                            Rif/CI es obligatorio.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo para Address -->
+                                <div class="row align-items-center mb-2">
+                                    <label id="address" class="col-auto text-end pe-2">Direccion</label>
+                                    <div class="col" style="max-width: 300px;">
+                                        <input type="text" class="form-control w-100" formControlName="address"
+                                            [ngClass]="{'is-invalid': form.get('address').invalid && form.get('address').touched}" />
+                                        <div *ngIf="form.get('address').invalid && form.get('address').touched"
+                                            class="text-danger">
+                                            Dirección es obligatoria.
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="!changePatient">
+                                Cliente: {{data.patient.full_name}}
+                                <button class="btn btn-warning btn-sm mr-3" (click)="showPatientEdit()">
+                                    <i class="fas fa-pencil-square-o" placement="top" ngbTooltip="editar"></i>
+                                </button>
+                                <br>
+                                Rif/CI: {{data.patient.identification}}<br>
+                                <ng-container *ngIf="data.patient.address != null">Direccion:
+                                    {{data.patient.address}}</ng-container><br>
+                            </ng-container>
+                        </address>
+                    </div>
+
+                    <div class="col-lg-5 text-right">
+                        <div class="form-group mb-1">
+                            <ng-select id="condition" formControlName="condition" [items]="conditionList" bindLabel="name"
+                                placeholder="condicion" [typeahead]="form.get('condition').valueChanges"
+                                class="form-control"
+                                [ngClass]="{'is-invalid': form.get('condition').invalid && form.get('condition').touched}">
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.name }}
+                                </ng-template>
+                            </ng-select>
+                            <div *ngIf="form.get('condition').invalid && form.get('condition').touched" class="text-danger">
+                                Condición es obligatoria.
+                            </div>
+                        </div>
+                        <div class="form-group mb-1">
+                            <ng-select id="payment_method" formControlName="payment_method"
+                                [items]="solicitudService.paymentsMethods$ | async" bindLabel="name"
+                                placeholder="Medotos de pago" [typeahead]="form.get('invoice_number').valueChanges"
+                                class="form-control"
+                                [ngClass]="{'is-invalid': form.get('payment_method').invalid && form.get('payment_method').touched}">
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.name }}
+                                </ng-template>
+                            </ng-select>
+                            <div *ngIf="form.get('payment_method').invalid && form.get('payment_method').touched"
+                                class="text-danger">
+                                Método de pago es obligatorio.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mg-t-40">
+                    <table class="table table-invoice table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="wd-40p">Descripcion</th>
+                                <th class="tx-center">Cantidad</th>
+                                <th class="tx-right">Precio Unitario</th>
+                                <th class="tx-right">Monto Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let an of data.analysis">
+                                <td class="tx-12">{{an.name}}</td>
+                                <td class="tx-center">1</td>
+                                <td class="tx-right">{{(an.price * rateToday).toFixed(2) | currency: "Bs." }}</td>
+                                <td class="tx-right">{{(an.price * rateToday).toFixed(2) | currency: "Bs."}}</td>
+                            </tr>
+                            <ng-container *ngIf="solicitudService.summary$ | async as summary">
+                                <tr>
+                                    <td class="valign-middle" colspan="2" rowspan="4">
+                                        <div class="invoice-notes">
+                                        </div><!-- invoice-notes -->
+                                    </td>
+                                    <td class="tx-right">Sub-Total</td>
+                                    <td class="tx-right" colspan="2">{{(summary.subtotal_bs).toFixed(2) | currency: "Bs."}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="tx-right">IGTF 3% <button class="btn btn-warning btn-sm mr-3" (click)="openModalIgtf()">
+                                            <i class="fas fa-pencil-square-o" placement="top" ngbTooltip="editar"></i>
+                                        </button></td>
+                                    <td class="tx-right" colspan="2">{{(summary.igtf_bs).toFixed(2) | currency: "Bs."}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="tx-right tx-uppercase tx-bold tx-inverse">Total: </td>
+                                    <td class="tx-right" colspan="2">
+                                        <h4 class="tx-bold">{{(summary.total_Bs).toFixed(2) | currency: "Bs."}}</h4>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn ripple btn-primary" (click)="processInvoice()" [disabled]="!form.valid">
+                    Registrar Factura
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Row -->

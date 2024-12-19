@@ -30,7 +30,9 @@ export class TestDetail {
   }
 }
 
-export interface iTest extends Test{}
+export interface iTest extends Test{
+  selected: true
+}
 
 
 export interface iTestDetail extends TestDetail{}

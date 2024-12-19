@@ -73,7 +73,7 @@ export class NavService implements OnDestroy {
       path: '/dashboard', title: 'Dashboard', type: 'link', icon: 'ti-home', active: true
     },
     {
-      title: 'Analisis Clinico', icon: 'ti-wallet', type: 'sub', active: false,
+      title: 'Analisis Clinico', icon: 'pe-7s-note2', type: 'sub', active: false,
       children: [
         { path: '/crypto/crypto-dashboard', title: 'Analisis', type: 'link' },
         { path: '/crypto/marketcap', title: 'Examenes', type: 'link' },
@@ -84,7 +84,7 @@ export class NavService implements OnDestroy {
       ]
     },
      {
-       title: 'Pacientes', icon: 'ti-shopping-cart-full', type: 'sub', active: false,
+       title: 'Pacientes', icon: 'pe-7s-add-user', type: 'sub', active: false,
        children: [
          { path: '/ecommerce/ecommerce-dashboard', title: 'Registro de Pacientes', type: 'link' },
          { path: '/ecommerce/products', title: 'Historial de Pacientes', type: 'link' },
@@ -99,12 +99,12 @@ export class NavService implements OnDestroy {
 
     { headTitle: 'Informes' },
      {
-       path: '/widgets', title: 'Diario', type: 'link', icon: 'ti-server', active: false
+       path: '/widgets', title: 'Solicitud de Exámenes', type: 'link', icon: 'pe-7s-folder', active: false
     },
      {
-       title: 'Mail', icon: 'ti-email', type: 'sub', badgeClass: 'badge-warning', badgeValue: '2', active: false,
+       title: 'Configuracion', icon: 'pe-7s-tools', type: 'sub', active: false,
        children: [
-         { path: '/mail/mail-inbox', title: 'Mail-Inbox', type: 'link' },
+         { path: '/mail/mail-inbox', title: 'Finanzas', type: 'link' },
          { path: '/mail/view-mail', title: 'View-Mail', type: 'link' },
        ]
      },

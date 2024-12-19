@@ -1,0 +1,131 @@
+
+  <div class="py-2">
+    <form [formGroup]="talonarioForm" (ngSubmit)="onSubmit()">
+      <div class="row py-2">
+        <div class="col-md-4">
+          <label id="nombre">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label id="nroActual">Número Actual</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="nro_current"
+          />
+        </div>
+        <div class="col-md-4">
+          <label id="nroInicial">Número Inicial</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="nro_initial"
+          />
+        </div>
+      </div>
+      <div class="row py-2">
+        <div class="col-md-4">
+          <label id="nro_end">Número Final</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="nro_end"
+          />
+        </div>
+        <div class="col-md-4">
+          <label id="serie">Serie</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="serie"
+          />
+        </div>
+        <div class="col-md-4">
+          <label id="tipo">Tipo</label>
+          <ng-select
+            formControlName="type"
+            class="form-control p-0"
+          >
+            <ng-option value="Facturas">Facturas</ng-option>
+            <ng-option value="Recibos">Recibos</ng-option>
+            <ng-option value="Recepcion de Pago"
+              >Recepción de Pago</ng-option
+            >
+          </ng-select>
+        </div>
+      </div>
+      <div class="row py-2">
+        <div class="col-md-4">
+          <p class="mb-2">Estatus</p>
+          <label class="custom-switch">
+            <input
+              type="checkbox"
+              class="custom-switch-input"
+              formControlName="status"
+            />
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">Activo</span>
+          </label>
+        </div>
+      </div>
+      <div class="row py-2">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-primary">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="py-2">
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Nro Inicial</th>
+            <th>Nro Final</th>
+            <th>Nro Actual</th>
+            <th>Estatus</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let talonario of exchangeCurrencyService.listTalonarios$
+                | async
+            "
+          >
+            <td>{{ talonario.name }}</td>
+            <td>{{ talonario.type }}</td>
+            <td>{{ talonario.nro_initial }}</td>
+            <td>{{ talonario.nro_end }}</td>
+            <td>{{ talonario.nro_current }}</td>
+            <td>{{ talonario.status ? "Activo" : "Inactivo" }}</td>
+            <td style="display: flex;">
+              <div class="p-2">
+                <button
+                  class="btn btn-warning btn-sm"
+                  (click)="editTalonario(talonario)"
+                >
+                  Editar
+                </button>
+              </div>
+              <div class="p-2">
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="deleteTalonario(talonario.id)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

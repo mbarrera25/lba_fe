@@ -26,7 +26,9 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
-  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent, PropertyTestComponent, AnalysisFormComponent, TestSearcherComponent, ImportTestComponent],
+  declarations: [MarketcapComponent, CurrencyExchangeComponent, BuySellComponent, WalletComponent, TransactionsComponent, CryptoDashboardComponent, TestFormComponent, PropertyTestComponent, AnalysisFormComponent, TestSearcherComponent, ImportTestComponent,
+
+  ],
   imports: [
     CommonModule,
     CryptoRoutingModule,

@@ -15,96 +15,78 @@
             <button type="button" class="btn btn-white btn-icon-text my-2 mr-2">
                 <i class="fe fe-filter mr-2"></i> Filter
             </button>
-            <button type="button" class="btn btn-primary my-2 btn-icon-text">
-                <i class="fe fe-download-cloud mr-2"></i> Download Report
+            <button type="button" class="btn btn-primary my-2 btn-icon-text" (click)="openFromsSolicitud()">
+                <i class="fe fe-download-cloud mr-2"></i> Crear nueva solicitud
             </button>
         </div>
     </div>
 </div>
 <!-- End Page Header -->
 
+<div class="row row-sm">
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Cant. de Analisis</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let soli of solicitudService.solicitudes$ | async ">
+            <td>{{ soli.patient.full_name }}</td>
+            <td>{{ soli.analysis.length }}</td>
+            <td>{{ soli.date | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ soli.status }}</td>
+            <td>
+              <button
+                class="btn btn-warning btn-sm mr-3"
+                (click)="openCreateModal(paciente)"
+              >
+              <i class="fas fa-pencil-square-o" placement="top" ngbTooltip="editar"></i>
+              </button>
+              <button
+                class="btn btn-danger btn-sm mr-3"
+                (click)="eliminarPaciente(paciente.id)"
+              >
+              <i class="fas fa-trash" placement="top" ngbTooltip="eliminar"></i>
+
+              </button>
+                <button
+                class="btn btn-info btn-sm mr-3"
+                (click)="facturar(soli)"
+                [disabled]="soli.status === 'cancelado' || soli.status === 'facturado'"
+              >
+              <i class="fas fa-money" placement="top" ngbTooltip="facturar"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
 <!-- Row -->
 <div class="row row-sm">
-    <div class="col-sm-6 col-md-6 col-xl-3">
+    <div class="col-sm-6 col-md-6 col-xl-12">
         <div class="card custom-card">
             <div class="card-body">
-                <p class="mb-1 tx-inverse">Number Of Sales</p>
-                <div>
-                    <h4 class="dash-25 mb-2">568</h4>
-                </div>
-                <div class="expansion-value d-flex tx-inverse">
-                    <strong><i class="fas fa-caret-down mr-1 text-danger"></i> 0.5%</strong>
-                    <strong class="ml-auto"><i class="fas fa-caret-up mr-1 text-success"></i>0.7%</strong>
-                </div>
-                <ngb-progressbar type="primary" [value]="70"></ngb-progressbar>
-
-                <div class="expansion-label d-flex text-muted">
-                    <span>Target</span>
-                    <span class="ml-auto">Last Month</span>
-                </div>
+              <div class="input-group">
+                <input class="form-control" placeholder="Search for..." type="text">
+                <span class="input-group-btn"><button class="btn ripple btn-primary" type="button">
+                        <span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+            </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-6 col-xl-3">
-        <div class="card custom-card">
-            <div class="card-body">
-                <p class="mb-1 tx-inverse">New Revenue</p>
-                <div>
-                    <h4 class="dash-25 mb-2">$12,897</h4>
-                </div>
-                <div class="expansion-value d-flex tx-inverse">
-                    <strong><i class="fas fa-caret-up mr-1 text-success"></i> 0.72%</strong>
-                    <strong class="ml-auto"><i class="fas fa-caret-down mr-1 text-danger"></i>0.43%</strong>
-                </div>
-                <ngb-progressbar type="secondary" [value]="60"></ngb-progressbar>
 
-                <div class="expansion-label d-flex text-muted">
-                    <span>Target</span>
-                    <span class="ml-auto">Last Month</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-6 col-xl-3">
-        <div class="card custom-card">
-            <div class="card-body">
-                <p class="mb-1 tx-inverse">Total Cost</p>
-                <div>
-                    <h4 class="dash-25 mb-2">$11,234</h4>
-                </div>
-                <div class="expansion-value d-flex tx-inverse">
-                    <strong><i class="fas fa-caret-down mr-1 text-danger"></i> 1.4%</strong>
-                    <strong class="ml-auto"><i class="fas fa-caret-down mr-1 text-danger"></i>1.44%</strong>
-                </div>
-                <ngb-progressbar type="success" [value]="50"></ngb-progressbar>
-
-                <div class="expansion-label d-flex text-muted">
-                    <span>Target</span>
-                    <span class="ml-auto">Last Month</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-6 col-xl-3">
-        <div class="card custom-card">
-            <div class="card-body">
-                <p class="mb-1 tx-inverse">Profit By Sale</p>
-                <div>
-                    <h4 class="dash-25 mb-2">$789</h4>
-                </div>
-                <div class="expansion-value d-flex tx-inverse">
-                    <strong><i class="fas fa-caret-down mr-1 text-danger"></i> 0.4%</strong>
-                    <strong class="ml-auto"><i class="fas fa-caret-up mr-1 text-success"></i>0.9%</strong>
-                </div>
-                <ngb-progressbar type="info" [value]="40"></ngb-progressbar>
-
-                <div class="expansion-label d-flex text-muted">
-                    <span>Target</span>
-                    <span class="ml-auto">Last Month</span>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- End Row -->
 

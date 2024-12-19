@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <label for="name">Busqueda por nombre, codigo o descripcion</label>
+    <label for="name">Busqueda por nombre, código o descripción</label>
     <input
       class="form-control"
       id="name"
@@ -12,14 +12,22 @@
       (input)="search()"
     />
   </div>
-  <div class="row row-sm " *ngIf="listSeleccionables$ | async" >
+  <div class="row row-sm" *ngIf="listSeleccionables$ | async">
     <div class="col-sm-12 col-md-12">
-      <div class="card custom-card selecting" >
+      <div class="card custom-card selecting">
         <div class="card-header border-bottom-0 custom-card-header"></div>
-        <div class="card-body" *ngFor="let test of listSeleccionables$ | async" (click)="selected(test)">
+        <div
+          class="card-body"
+          *ngFor="let test of listSeleccionables$ | async"
+        >
           <div class="border">
-            <div class="p-3">
+            <div class="p-3 d-flex justify-content-between">
               <h6>{{ test.code }} - {{ test.name }}</h6>
+              <input
+                type="checkbox"
+                [(ngModel)]="test.selected"
+                (change)="toggleSelection(test)"
+              />
             </div>
           </div>
         </div>
@@ -28,7 +36,18 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="cancelar()">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="cancelar()"
+  >
     Close
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="addTestsAndClose()"
+  >
+    Agregar Exámenes
   </button>
 </div>

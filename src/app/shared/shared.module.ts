@@ -19,18 +19,22 @@ import { SearchDatePipe } from './pipes/search-date.pipe';
 import { HoriFullLayoutComponent } from './layouts-horizontal/hori-full-layout/hori-full-layout.component';
 import { HoriHeaderComponent } from './components-horizontal/hori-header/hori-header.component';
 import { HorizontalMenuComponent } from './components-horizontal/horizontal-menu/horizontal-menu.component';
+import { CustomSearchSelectComponent } from './custom-search-select/custom-search-select.component';
+import { FormModule } from '../components/forms/form.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [ FooterComponent, HeaderComponent, LoaderComponent, TapToTopComponent, SidemenuComponent, NotificationSidebarComponent, FullLayoutComponent, ContentLayoutComponent, FullscreenToggleDirective,  MessageLayoutComponent, ErrorLayoutComponent, SearchDatePipe, HoriFullLayoutComponent, HoriHeaderComponent, HorizontalMenuComponent  ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule,
     NgbModule,
     NgSelectModule
   ],
   exports: [
-    LoaderComponent, 
+    LoaderComponent,
     TapToTopComponent,
     FooterComponent,
     FullLayoutComponent,

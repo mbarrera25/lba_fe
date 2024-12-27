@@ -1,3 +1,4 @@
+import { Analysis } from "./Analysis.model";
 
 export class Paciente {
   constructor(
@@ -12,7 +13,7 @@ export class Paciente {
     public blood_type?: string,
     public medical_history?: string,
     public allergies?: string
-  ){
+  ) {
     this.id = id;
     this.identification = identification;
     this.full_name = full_name;
@@ -26,6 +27,22 @@ export class Paciente {
     this.allergies = allergies;
   }
 }
-export interface iPaciente extends Paciente{}
+export interface iPaciente extends Paciente {}
 
-export type Genero = 'Masculino' | 'Femenino'
+export class PacienteRecord {
+  constructor(
+    public id: number,
+    public patient: iPaciente,
+    public analysis: iRecordAnalisys[]
+  ) {
+    this.patient = patient;
+  }
+}
+
+export interface iRecordAnalisys{
+  date: Date,
+  status: string,
+  analysis: Analysis[]
+}
+
+export type Genero = 'Masculino' | 'Femenino';

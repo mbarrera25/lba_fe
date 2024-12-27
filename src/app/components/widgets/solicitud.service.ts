@@ -31,10 +31,7 @@ private apiUrl = 'http://localhost:5000/api';
     private configurationService: ExchangeCurrencyService
   ) { }
 
-  searchPatient(term: string): any {
-    const params = new HttpParams().set('query', term);
-    return this.http.get<string[]>(`${this.apiUrl}/patients/search`, { params });
-  }
+
   searchAnalysis(term: string): any {
     const params = new HttpParams().set('query', term);
     return this.http.get<string[]>(`${this.apiUrl}/analisys/search`, { params });

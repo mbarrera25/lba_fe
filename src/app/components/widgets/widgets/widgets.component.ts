@@ -23,6 +23,8 @@ export class WidgetsComponent implements OnInit {
   ngOnInit(): void {
     this.solicitudService.getAllSolicitudes();
     this.solicitudService.getRateNow();
+    console.log();
+
   }
 
   openFromsSolicitud() {

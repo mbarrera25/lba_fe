@@ -7,6 +7,7 @@ import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { iPaciente } from 'src/app/models/paciente.model';
 import { iAnalysis } from 'src/app/models/Analysis.model';
 import { RequestReq } from 'src/app/models/solicitudes.model';
+import { PacienteService } from 'src/app/components/ecommerce/ecommerce-dashboard/paciente.service';
 
 @Component({
   selector: 'app-form-solicitud',
@@ -19,7 +20,8 @@ export class FormSolicitudComponent implements OnInit {
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    public solicitudService: SolicitudService
+    public solicitudService: SolicitudService,
+    public pacienteService: PacienteService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class FormSolicitudComponent implements OnInit {
 this.formSoli.get('paciente').valueChanges.pipe(
   debounceTime(1000), // Espera 1 segundo después de que el usuario deja de escribir
   filter(value => !!value && value.trim() !== ''), // Solo continúa si hay un valor no vacío
-  switchMap((value) => this.solicitudService.searchPatient(value)) // Cambia a la nueva búsqueda
+  switchMap((value) => this.pacienteService.searchPatient(value)) // Cambia a la nueva búsqueda
 )
 .subscribe((results: iPaciente[]) => {
   this.solicitudService.patients$.next(results); // Actualiza los resultados

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Analysis, iAnalysis } from 'src/app/models/Analysis.model';
-import { iTest, Test } from 'src/app/models/Test.model';
+import { iTest, iTestDetail, Test } from 'src/app/models/Test.model';
 import { Page, Pagination } from 'src/app/models/utils';
 
 @Injectable({
@@ -104,4 +104,7 @@ export class AnalysisService {
     return this.http.post<Test[]>(`${this.apiUrl}/tests/bulk`, {tests})
   }
 
+  getTestDetailByCode(code: string) {
+    return this.http.get<iTestDetail[]>(`${this.apiUrl}/testdetail/byCode/${code}`)
+  }
 }

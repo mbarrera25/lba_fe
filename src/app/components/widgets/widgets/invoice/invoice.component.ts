@@ -6,9 +6,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddIgtfComponent } from './add-igtf/add-igtf.component';
 import { Invoice, InvoiceDetail } from 'src/app/models/Invoice.model';
 import { tap } from 'rxjs/operators';
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import * as pdfMake from 'pdfmake/build/pdfmake';
+import { ReportsService } from 'src/app/components/reports.service';
+
 
 @Component({
   selector: 'app-invoice',
@@ -61,7 +60,7 @@ export class InvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-
+    private reportsService: ReportsService
 
   ) { }
 
@@ -164,18 +163,22 @@ export class InvoiceComponent implements OnInit {
        this.changePatient ? this.form.value.type_person : this.getTypePerson(this.data.patient.identification),
        this.changePatient ? this.form.value.address : this.data.patient.address,
        this.solicitudService.invoiceNumber$.value,
-       this.summary.total_Bs,
-       this.summary.subtotal_bs,
-       this.summary.igtf_bs,
-       this.solicitudService.rate$.value.rate,
+       Number(this.summary.total_Bs.toFixed(2)),
+       Number(this.summary.subtotal_bs.toFixed(2)),
+       Number(this.summary.igtf_bs.toFixed(2)),
+       Number(this.solicitudService.rate$.value.rate.toFixed(2)),
        lines,
-       'VES'
+       'VES',
+        this.data.id,
+        this.form.value.payment_method.type
      )
 
      this.solicitudService.createdInvoice(invoice).pipe(
         tap( f => {
           this.solicitudService.incrementBookPayment(this.bookTypeId)
+          this.solicitudService.recordTransaction(f)
           this.solicitudService.invoiceNumber$.next(null)
+          this.reportsService.ImprimirFact(f, 'print')
           this.activeModal.close()
         })
      ).subscribe()
@@ -185,210 +188,7 @@ export class InvoiceComponent implements OnInit {
 
   }
 
-  ImprimirFact(factura: Invoice) {
-    const moneda = 'Bs. ';
-    const fecha: Date = factura.date_at;
-    const detalles = factura.invoice_line.map((det) => {
-      return [
-        { text: det.quantity },
-        { text: det.description },
-        { text: moneda + det.price },
-        { text: moneda + det.total },
-      ];
-    });
-    const pdfDefinition: TDocumentDefinitions = {
-      content: [
-        {
-          alignment: 'justify',
-          marginBottom: 20,
-          // marginLeft: 50,
-          columns: [
-            {
-              table: {
-                headerRows: 1,
-                widths: ['auto', 100],
-                body: [
-                  [
-                    {
-                      border: [true, true, false, false],
-                      bold: true,
-                      text: 'Cliente:',
-                    },
-                    {
-                      border: [false, true, true, false],
-                      text: factura.name,
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  [
-                    {
-                      border: [true, false, false, false],
-                      bold: true,
-                      text: 'Rif/Cedula:',
-                    },
-                    {
-                      border: [false, false, true, false],
-                      text: factura.identification,
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  [
-                    {
-                      border: [true, false, false, false],
-                      bold: true,
-                      text: 'Direccion:',
-                    },
-                    {
-                      border: [false, false, true, false],
-                      text: factura.direction,
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  /*[
-                    {
-                      border: [true, false, false, true],
-                      bold: true,
-                      text: 'Telefono:',
-                    },
-                    {
-                      border: [false, false, true, true],
-                      text: factura.persona.telefono,
-                      style: { alignment: 'right' },
-                    },
-                  ],*/
-                ],
-              },
-            },
-            {
-              table: {
-                headerRows: 1,
-                widths: ['auto', 100],
-                body: [
-                  [
-                    {
-                      border: [true, true, false, false],
-                      bold: true,
-                      text: 'Factura N°:',
-                    },
-                    {
-                      border: [false, true, true, false],
-                      text: factura.invoice_number,
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  [
-                    {
-                      border: [true, false, false, false],
-                      bold: true,
-                      text: 'Fecha:',
-                    },
-                    {
-                      border: [false, false, true, false],
-                      text:
-                        fecha.getDate() +
-                        '/' +
-                        (fecha.getMonth() + 1) +
-                        '/' +
-                        fecha.getFullYear(),
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  [
-                    {
-                      border: [true, false, false, false],
-                      bold: true,
-                      text: 'Condicion:',
-                    },
-                    {
-                      border: [false, false, true, false],
-                      text: "-",
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                  [
-                    {
-                      border: [true, false, false, true],
-                      bold: true,
-                      text: 'Metodo de Pago:',
-                    },
-                    {
-                      border: [false, false, true, true],
-                      text: "",
-                      style: { alignment: 'right' },
-                    },
-                  ],
-                ],
-              },
-            },
-          ],
-        },
-        {
-          table: {
-            headerRows: 1,
-            widths: ['auto', 300, 65, 65],
-            body: [
-              [
-                { text: 'Cant', style: 'tableHeader' },
-                { text: 'Descripcion', style: 'tableHeader' },
-                { text: 'Precio', style: 'tableHeader' },
-                { text: 'Total', style: 'tableHeader' },
-              ],
-              detalles,
-            ],
-          },
-        },
-        {
-          style: 'totalesTable',
-          table: {
-            widths: ['auto', 'auto'],
-            body: [
-              [
-                { text: 'Sub-Total:' },
-                {
-                  text: moneda + factura.subtotal_amount,
-                  style: { alignment: 'right' },
-                },
-              ],
-              [
-                { text: 'Total Exento:' },
-                {
-                  text: moneda + factura.total_amount,
-                  style: { alignment: 'right' },
-                },
-              ],
-              [
-                { text: 'IGTF:' },
-                {
-                  text: factura.igtf
-                    ? moneda + factura.igtf
-                    : moneda + '0.00',
-                  style: { alignment: 'right' },
-                },
-              ],
-              [
-                { text: 'Total a Pagar:' },
-                {
-                  text: moneda + factura.total_amount,
-                  style: { alignment: 'right' },
-                },
-              ],
-            ],
-          },
-          layout: 'noBorders',
-        },
-      ],
-      styles: {
-        totalesTable: {
-          marginTop: 10,
-          marginLeft: 345,
-          marginBottom: 10,
-        },
-      },
-    };
-    var win = window.open('', '_blank');
-    return pdfMake
-      .createPdf(pdfDefinition, {}, undefined, pdfFonts.pdfMake.vfs)
-      .download();
-  }
+
+
 
 }

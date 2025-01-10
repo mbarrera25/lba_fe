@@ -9,11 +9,16 @@ import { ExchangeCurrencyService } from '../mail/exchange-currency.service';
 import { iExchangeCurrancy } from 'src/app/models/ExchangeCurrancy.model';
 import { Summary } from 'src/app/models/Summary.model';
 import { Invoice } from 'src/app/models/Invoice.model';
+import { Transaction } from 'src/app/models/Transaction.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitudService {
+  recordTransaction(f: Invoice) {
+    const transaction = new Transaction(f);
+    return this.http.post<Transaction>(`${this.apiUrl}/transaction`, transaction).subscribe();
+  }
 
 
 solicitudes$ = new BehaviorSubject<iRequest[]>([])
@@ -52,7 +57,7 @@ private apiUrl = 'http://localhost:5000/api';
   }
 
   incrementBookPayment(id: number){
-    return this.http.put<iBook_Payment>(`${this.apiUrl}/talonarios/${id}/increment`,{})
+    return this.http.put<iBook_Payment>(`${this.apiUrl}/talonarios/${id}/increment`,{}).subscribe()
   }
   getBookPaymenByType(type: string){
     this.getBookPayments(type).subscribe( (resp) => this.paymentsBookActives$.next(resp))

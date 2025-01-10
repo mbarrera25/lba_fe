@@ -37,31 +37,47 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let soli of solicitudService.solicitudes$ | async ">
+          <tr *ngFor="let soli of solicitudService.solicitudes$ | async">
             <td>{{ soli.patient.full_name }}</td>
             <td>{{ soli.analysis.length }}</td>
             <td>{{ soli.date | date: 'dd/MM/yyyy' }}</td>
             <td>{{ soli.status }}</td>
             <td>
+              <!-- Botón Editar -->
               <button
                 class="btn btn-warning btn-sm mr-3"
-                (click)="openCreateModal(paciente)"
+                (click)="openCreateModal(soli.patient)"
+                *ngIf="soli.status !== 'facturado'"
               >
-              <i class="fas fa-pencil-square-o" placement="top" ngbTooltip="editar"></i>
+                <i class="fas fa-pencil-square-o" placement="top" ngbTooltip="editar"></i>
               </button>
+
+              <!-- Botón Eliminar -->
               <button
                 class="btn btn-danger btn-sm mr-3"
-                (click)="eliminarPaciente(paciente.id)"
+                (click)="eliminarPaciente(soli.patient.id)"
+                *ngIf="soli.status !== 'facturado'"
               >
-              <i class="fas fa-trash" placement="top" ngbTooltip="eliminar"></i>
-
+                <i class="fas fa-trash" placement="top" ngbTooltip="eliminar"></i>
               </button>
-                <button
+
+              <!-- Botón Facturar -->
+              <button
                 class="btn btn-info btn-sm mr-3"
                 (click)="facturar(soli)"
                 [disabled]="soli.status === 'cancelado' || soli.status === 'facturado'"
+                *ngIf="soli.status !== 'facturado'"
               >
-              <i class="fas fa-money" placement="top" ngbTooltip="facturar"></i>
+                <i class="fas fa-money" placement="top" ngbTooltip="facturar"></i>
+              </button>
+
+              <!-- Botón Ver Factura -->
+              <button
+                class="btn btn-success btn-sm"
+                (click)="verFactura(soli)"
+                *ngIf="soli.status === 'facturado'"
+              >
+                <i class="fas fa-file-invoice" placement="top" ngbTooltip="ver factura"></i>
               </button>
             </td>
           </tr>
@@ -69,8 +85,8 @@
       </table>
     </div>
   </div>
-
 </div>
+
 
 
 <!-- Row -->

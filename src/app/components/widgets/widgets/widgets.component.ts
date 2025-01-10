@@ -6,6 +6,7 @@ import { iRequest } from 'src/app/models/solicitudes.model';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { Summary } from 'src/app/models/Summary.model';
 import { tap } from 'rxjs/operators';
+import { ReportsService } from '../../reports.service';
 
 @Component({
   selector: 'app-widgets',
@@ -17,7 +18,8 @@ export class WidgetsComponent implements OnInit {
 
   constructor(
     public solicitudService: SolicitudService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private reporteService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -62,5 +64,9 @@ export class WidgetsComponent implements OnInit {
         )
         .subscribe();
     });
+  }
+
+  verFactura(soli: any){
+    this.reporteService.ImprimirFact(soli.invoice,'print')
   }
 }

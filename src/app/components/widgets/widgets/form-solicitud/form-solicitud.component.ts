@@ -100,7 +100,7 @@ this.formSoli.get('paciente').valueChanges.pipe(
     const lst = this.solicitudService.listAnalisis$.value;
 
     // Verifica si el análisis ya está en la lista
-    const exists = lst.some((a: any) => a.id === analisis.id);
+    const exists = lst ? lst.some((a: any) => a.id === analisis.id) : false;
 
     // Si no existe, agregarlo a la lista
     if (!exists) {

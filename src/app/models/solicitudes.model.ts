@@ -1,4 +1,5 @@
 import { iAnalysis } from "./Analysis.model";
+import { Invoice } from "./Invoice.model";
 import { iPaciente } from "./paciente.model";
 
 export class RequestReq{
@@ -41,5 +42,6 @@ export class Request{
   }
 
   export interface iRequest extends Request{
-    id: number
+    id: number,
+    invoice: Invoice
   }

@@ -1,4 +1,5 @@
 import { iCurrency } from "./ExchangeCurrancy.model";
+import { PaymentType } from "./metodosPagos.model";
 
 
 export class Invoice{
@@ -14,7 +15,9 @@ export class Invoice{
         public igtf: number,
         public rate: number,
         public invoice_line: InvoiceDetail[],
-        public currency: string
+        public currency: string,
+        public request_id: number,
+        public pay_method: PaymentType
     ){
         this.name = name;
         this.identification = identification;
@@ -26,7 +29,9 @@ export class Invoice{
         this.igtf = igtf;
         this.rate = rate;
         this.invoice_line = invoice_line;
-        this.currency = currency
+        this.currency = currency,
+        this.request_id = request_id
+        this.pay_method = pay_method
 
     }
 }
@@ -40,15 +45,15 @@ export class InvoiceDetail{
 
     constructor(
         public quantity: number,
-        public description: string, 
+        public description: string,
         public price: number,
         public total: number,
         public rate: number
     ){
         this.quantity = quantity;
         this.description = description;
-        this.price = price * rate;
-        this.total = total * rate;
-        this.rate = rate;
+        this.price = Number((price * rate).toFixed(2));
+        this.total = Number((total * rate).toFixed(2));
+        this.rate = Number(rate.toFixed(2));
     }
 }

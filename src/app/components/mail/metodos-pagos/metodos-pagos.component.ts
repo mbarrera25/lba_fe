@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExchangeCurrencyService } from '../exchange-currency.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Currency } from 'src/app/models/ExchangeCurrancy.model';
+import { paymentTypes } from 'src/app/models/metodosPagos.model';
 
 @Component({
   selector: 'app-metodos-pagos',
@@ -10,29 +11,9 @@ import { Currency } from 'src/app/models/ExchangeCurrancy.model';
 })
 export class MetodosPagosComponent implements OnInit {
   metodoPagoForm: FormGroup;
-  listTypes = [
-    {
-      value: 'Efectivo bs'
-    },
-    {
-      value: 'Efectivo usd'
-    },
-    {
-      value: 'Electronico bs'
-    },
-    {
-      value: 'Electronico usd'
-    },
-    {
-      value: 'Tarjeta de Debito'
-    },
-    {
-      value: 'pago m. / transferencia'
-    },
-    {
-      value: 'Tarjeta de Credito'
-    },
-  ]
+
+  
+  listTypes = paymentTypes.map(value => ({ value }));
 
   constructor(
     public exchangeCurrencyService: ExchangeCurrencyService,

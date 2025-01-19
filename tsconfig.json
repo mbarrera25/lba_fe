@@ -17,11 +17,8 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "target": "es5",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2019", "dom"],
+    "target": "es2019"
   }
 }

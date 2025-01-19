@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, filter, switchMap, tap } from 'rxjs/operators';
 import { PacienteService } from '../ecommerce-dashboard/paciente.service';
 import { iPaciente } from 'src/app/models/paciente.model';
-import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Subscription } from 'rxjs';
 import { AnalysisService } from '../../crypto/analysis.service';
+import { LoadTestsComponent } from './load-tests/load-tests.component';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public pacienteService: PacienteService,
     private accordionConfig: NgbAccordionConfig,
-    private analysisService: AnalysisService
+    private analysisService: AnalysisService,
+    private modalService: NgbModal
   ) {
     this.accordionConfig.closeOthers = true;
   }
@@ -64,35 +66,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
     // Limpia los resultados
     this.pacienteService.pacientListRecord$.next([]); // Limpia los resultados
   }
-  cargarExamen(analisis: any) {
+  loadTest(id_request: any) {
     console.log('Cargando examen');
-    console.log(analisis);
-
-    // Aseguramos que las propiedades sean un array vacío antes de usarlo
-    let propiedades: any[] = [];
-
-    // Usamos `map` para crear una lista de observables y luego combinarlos con `forkJoin`
-    const observables = analisis.analysis.map((analisi: { code: string }) =>
-      this.analysisService.getTestDetailByCode(analisi.code).pipe(
-        tap((res: any) => {
-          console.log(res);
-         // propiedades = [...propiedades, ...res.properties];
-          propiedades.push(res.properties) // Aseguramos que no se sobrescriban las propiedades
-          console.log(propiedades);
-        })
-      )
-    );
-
-    // Usamos `forkJoin` para esperar a que todas las solicitudes se completen
-    forkJoin(observables).subscribe({
-      next: () => {
-        console.log('Todos los exámenes cargados correctamente');
-        // Aquí puedes realizar cualquier otra operación con las propiedades
-      },
-      error: (err) => {
-        console.error('Error cargando los exámenes:', err);
-      }
+    console.log(id_request);
+    const modalRef = this.modalService.open(LoadTestsComponent, {
+      size: 'xl',
+      windowClass: 'custom-modal-size',
     });
+    modalRef.componentInstance.idRequest = id_request;
+
+    modalRef.result.then(() => {});
   }
 
   enviarCorreo(analisis: any) {}

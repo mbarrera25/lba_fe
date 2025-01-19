@@ -1,1 +1,110 @@
-<p>load-tests works!</p>
+<!-- Row -->
+<div class="row row-sm">
+  <div class="col-xl-12 col-lg-12 col-md-12">
+    <div class="card custom-card">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        <h3 class="main-content-label mb-0">Análisis</h3>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered text-md-nowrap">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th class="text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of analyses | async" class="align-middle">
+                <td>{{ a.name }}</td>
+                <td>{{ a.description }}</td>
+                <td class="text-center">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    (click)="toggleDetails(a)"
+                  >
+                    Ver detalles
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Details Section -->
+<ng-container *ngIf="selectedAnalysis | async as selectedAnalysis">
+  <div class="row mt-4">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="main-content-label">
+            Detalles del Análisis: {{ selectedAnalysis.name }}
+          </h4>
+        </div>
+        <div class="card-body">
+          <p>
+            <strong>Descripción Completa:</strong>
+            {{ selectedAnalysis.description }}
+          </p>
+          <h5>Tests Asociados:</h5>
+          <div *ngIf="selectedAnalysis.Tests?.length > 0; else noTests">
+            <div class="card mb-3" *ngFor="let t of selectedAnalysis.Tests">
+              <div class="card-body">
+                <h5 class="card-title">{{ t.name }}</h5>
+                <p class="card-text">
+                  Descripción del Test: {{ t.description || "N/A" }}
+                </p>
+                <h6>Detalles del Test:</h6>
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Nombre del Detalle</th>
+                        <th>Resultado</th>
+                        <th>indicador</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let detail of t.TestDetails">
+                        <td>{{ detail.name }}</td>
+                        <td>
+                          <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            [(ngModel)]="detail.result_value"
+                            placeholder="Ingrese resultado"
+                          />
+                        </td>
+                        <td>{{ detail.indicator ? detail.indicator : "-" }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noTests>
+            <p>No hay tests asociados a este análisis.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-12 mt-4">
+      <button class="btn btn-primary" (click)="saveTest(selectedAnalysis)">
+        Guardar Resultados
+      </button>
+    </div>
+  </div>
+</ng-container>
+<div class="col-xl-12 mt-4">
+  <button class="btn btn-primary" (click)="saveResults()">
+    Guardar Resultados
+  </button>
+</div>

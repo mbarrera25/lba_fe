@@ -1,3 +1,4 @@
+import { ResultPatient } from './../../models/ResultPatient.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -15,6 +16,7 @@ import { Transaction } from 'src/app/models/Transaction.model';
   providedIn: 'root'
 })
 export class SolicitudService {
+ 
   recordTransaction(f: Invoice) {
     const transaction = new Transaction(f);
     return this.http.post<Transaction>(`${this.apiUrl}/transaction`, transaction).subscribe();
@@ -82,5 +84,13 @@ private apiUrl = 'http://localhost:5000/api';
 
   changeStatus(status: any, id: number) {
   return this.http.patch<any>(`${this.apiUrl}/solicitudes/${id}/status`, {status} ); // Realiza la solicitud PATCH
+  }
+
+  getAnalysisBySolicitud(id: number){
+    return this.http.get<iAnalysis[]>(`${this.apiUrl}/loadResult/get-request/${id}`)
+  }
+  loadResults(resul: ResultPatient[]) {
+    return this.http.post<ResultPatient[]>(`${this.apiUrl}/loadResult`, resul);
+    
   }
 }

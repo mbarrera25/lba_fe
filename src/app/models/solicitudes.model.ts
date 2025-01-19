@@ -23,7 +23,7 @@ sub_total: number = 0
 
 export interface iRequestReq extends RequestReq{}
 
-export type status = 'creado' | 'en proceso' | 'completado' | 'entregado' | 'cancelado' | 'facturado'
+export type status = 'creado' | 'en proceso' | 'completado' | 'entregado' | 'cancelado' | 'facturado' | 'cargado'
 
 export class Request{
   date: Date = new Date()

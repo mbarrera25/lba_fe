@@ -75,7 +75,7 @@
               <button
                 class="btn btn-success btn-sm"
                 (click)="verFactura(soli)"
-                *ngIf="soli.status === 'facturado'"
+                *ngIf="soli.status != 'creado'"
               >
                 <i class="fas fa-file-invoice" placement="top" ngbTooltip="ver factura"></i>
               </button>

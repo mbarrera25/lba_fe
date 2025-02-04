@@ -52,7 +52,7 @@ export class LoadTestsComponent implements OnInit {
     const resul = this.analyses.value.flatMap((a) => 
       a.Tests.flatMap((t: any) => 
         t.TestDetails.map((td: any) => 
-          new ResultPatient(td.result_value, a.id, td.id)
+          new ResultPatient(td.result_value, this.idRequest, td.id)
         )
       )
     );

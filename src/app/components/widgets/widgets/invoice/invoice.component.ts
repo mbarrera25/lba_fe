@@ -7,6 +7,7 @@ import { AddIgtfComponent } from './add-igtf/add-igtf.component';
 import { Invoice, InvoiceDetail } from 'src/app/models/Invoice.model';
 import { tap } from 'rxjs/operators';
 import { ReportsService } from 'src/app/components/reports.service';
+import * as html2pdf from 'html2pdf.js';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { ReportsService } from 'src/app/components/reports.service';
 export class InvoiceComponent implements OnInit {
   INVOICE_TYPE = 'Facturas'
   bookTypeId = null
-  form: FormGroup;
+  form: FormGroup;  
   @Input() data: iRequest;
   showSelectTalonario = true
   changePatient = false
@@ -178,7 +179,10 @@ export class InvoiceComponent implements OnInit {
           this.solicitudService.incrementBookPayment(this.bookTypeId)
           this.solicitudService.recordTransaction(f)
           this.solicitudService.invoiceNumber$.next(null)
-          this.reportsService.ImprimirFact(f, 'print')
+          const element = document.getElementById('invoice');
+          console.log(element);
+          this.reportsService.downloadInvoice(f.id)
+          //this.reportsService.downloadInvoice(f.id)
           this.activeModal.close()
         })
      ).subscribe()

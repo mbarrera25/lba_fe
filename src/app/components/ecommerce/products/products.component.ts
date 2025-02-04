@@ -80,8 +80,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   enviarCorreo(analisis: any) {}
 
-  imprimir(analisis: any): void {
-    console.log(analisis);
+  imprimir(id: number): void {
+    console.log('Imprimir', id);
+    console.log(this.pacienteService.pacientRecord$.value.patient);
+    
+    
   }
 
   calcularEdad(fechaNacimiento: string): number {

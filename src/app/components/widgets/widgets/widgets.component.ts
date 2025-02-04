@@ -67,6 +67,8 @@ export class WidgetsComponent implements OnInit {
   }
 
   verFactura(soli: any){
-    this.reporteService.ImprimirFact(soli.invoice,'print')
+    console.log(soli);
+    
+    this.reporteService.downloadInvoice(soli.invoice.invoice_id)
   }
 }

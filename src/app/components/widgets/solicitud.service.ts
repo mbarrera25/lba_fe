@@ -84,6 +84,9 @@ private apiUrl = 'http://localhost:5000/api';
   downloadInvoice(invoiceId: number) {
     return this.http.get(`${this.apiUrl}/invoice/${invoiceId}/download`, { responseType: 'blob' as 'json'})
   }
+  downloadResult(id: number) {
+    return this.http.get(`${this.apiUrl}/loadResult/printResult/${id}`, { responseType: 'blob' as 'json'})
+  }
 
   changeStatus(status: any, id: number) {
   return this.http.patch<any>(`${this.apiUrl}/solicitudes/${id}/status`, {status} ); // Realiza la solicitud PATCH

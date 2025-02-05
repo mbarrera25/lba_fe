@@ -1,6 +1,7 @@
 import { TestDetail } from './../../../../models/Test.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { SolicitudService } from 'src/app/components/widgets/solicitud.service';
@@ -18,7 +19,8 @@ export class LoadTestsComponent implements OnInit {
   selectedAnalysis = new BehaviorSubject<any>(null);
   constructor(
     private solicitudService: SolicitudService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public activeModal: NgbActiveModal,
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class LoadTestsComponent implements OnInit {
         if(r != null){
          this.solicitudService.changeStatus('cargado',this.idRequest).subscribe()
           }
+          this.activeModal.close();
         }
        )
     ).subscribe();

@@ -7,6 +7,7 @@ import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Subscription } from 'rxjs';
 import { AnalysisService } from '../../crypto/analysis.service';
 import { LoadTestsComponent } from './load-tests/load-tests.component';
+import { ReportsService } from '../../reports.service';
 
 @Component({
   selector: 'app-products',
@@ -23,7 +24,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public pacienteService: PacienteService,
     private accordionConfig: NgbAccordionConfig,
     private analysisService: AnalysisService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private reportsService: ReportsService
   ) {
     this.accordionConfig.closeOthers = true;
   }
@@ -53,8 +55,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   onSelectPaciente(event: any) {
     this.formRecord.get('paciente')?.setValue(event); // Actualiza el valor del formulario
+    this.getRecordsPatient(event.id); // Obtiene los registros del paciente
+    // Limpia los resultados
+    this.pacienteService.pacientListRecord$.next([]); // Limpia los resultados
+  }
+
+  getRecordsPatient(id: any) {
     this.pacienteService
-      .getPatientRecord(event.id)
+      .getPatientRecord(id)
       .pipe(
         tap((p) => {
           this.pacienteService.pacientRecord$.next(p);
@@ -63,8 +71,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-    // Limpia los resultados
-    this.pacienteService.pacientListRecord$.next([]); // Limpia los resultados
   }
   loadTest(id_request: any) {
     console.log('Cargando examen');
@@ -75,18 +81,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
     });
     modalRef.componentInstance.idRequest = id_request;
 
-    modalRef.result.then(() => {});
+    modalRef.result.then(() => {
+       this.getRecordsPatient(this.formRecord.get('paciente').value.id);
+    });
   }
 
   enviarCorreo(analisis: any) {}
 
   imprimir(id: number): void {
-    console.log('Imprimir', id);
-    console.log(this.pacienteService.pacientRecord$.value.patient);
-    
-    
+    this.reportsService.donwloadResult(id);  
   }
-
   calcularEdad(fechaNacimiento: string): number {
     const birthDate = new Date(fechaNacimiento);
     const today = new Date();

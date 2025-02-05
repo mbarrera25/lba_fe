@@ -14,21 +14,20 @@ export class ReportsService {
 
   downloadInvoice(invoiceId: number) {
     this.solicitudService.downloadInvoice(invoiceId).subscribe((blob: Blob) => {
-      console.log('Blob recibido:', blob.size, blob.type);
-  
-      // Asegurarse de que el tipo es correcto
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
+      this.printPdf(blob);
+    });
+  }
 
-      /*const link = document.createElement('a');
-      link.href = url;
-      link.download = `factura_${invoiceId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);*/
-  
-      // Liberar memoria
-      setTimeout(() => URL.revokeObjectURL(url), 100);
+  printPdf(blob: Blob) {
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    // Liberar memoria
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+  }
+
+  donwloadResult(id: number) {
+    this.solicitudService.downloadResult(id).subscribe((blob: Blob) => {
+      this.printPdf(blob);
     });
   }
 }

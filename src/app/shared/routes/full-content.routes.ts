@@ -21,7 +21,7 @@ export const Full_Content_Routes: Routes = [
     },
     {
         path: 'crypto',
-        loadChildren: () => import('../../components/analisys/crypto.module').then(m => m.CryptoModule)
+        loadChildren: () => import('../../components/test-manager/crypto.module').then(m => m.AnalisysModule)
     },
     {
         path: 'ecommerce',

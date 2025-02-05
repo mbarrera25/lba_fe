@@ -6,7 +6,7 @@ import { CurrencyExchangeComponent } from './currency-exchange/currency-exchange
 import { BuySellComponent } from './buy-sell/buy-sell.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { TransactionsComponent } from './transactions/transactions.component';
-import { CryptoRoutingModule } from './crypto-routing.module';
+import { AnalisysRoutingModule } from './crypto-routing.module';
 import { ChartsModule } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -15,12 +15,12 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
-import { CryptoDashboardComponent } from './crypto-dashboard/crypto-dashboard.component';
+import { CryptoDashboardComponent } from './analisys/analisys.component';
 import { TestFormComponent } from './marketcap/test-form/test-form.component';
 import { ArchwizardModule } from 'angular-archwizard';
 import { PropertyTestComponent } from './marketcap/test-form/property-test/property-test.component';
-import { AnalysisFormComponent } from './crypto-dashboard/analysis-form/analysis-form.component';
-import { TestSearcherComponent } from './crypto-dashboard/analysis-form/test-searcher/test-searcher.component';
+import { AnalysisFormComponent } from './analisys/analysis-form/analysis-form.component';
+import { TestSearcherComponent } from './analisys/analysis-form/test-searcher/test-searcher.component';
 import { ImportTestComponent } from './marketcap/import-test/import-test.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -31,7 +31,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   ],
   imports: [
     CommonModule,
-    CryptoRoutingModule,
+    AnalisysRoutingModule,
     ChartsModule,
     NgApexchartsModule,
     NgSelectModule,
@@ -55,4 +55,4 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     ToastrService, NgbModalConfig
   ]
 })
-export class CryptoModule { }
+export class AnalisysModule { }

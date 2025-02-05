@@ -5,7 +5,7 @@ import { PacienteService } from '../ecommerce-dashboard/paciente.service';
 import { iPaciente } from 'src/app/models/paciente.model';
 import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Subscription } from 'rxjs';
-import { AnalysisService } from '../../analisys/analysis.service';
+import { AnalysisService } from '../../test-manager/analysis.service';
 import { LoadTestsComponent } from './load-tests/load-tests.component';
 import { ReportsService } from '../../reports.service';
 
